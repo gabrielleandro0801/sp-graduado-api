@@ -1,0 +1,7 @@
+Flask==2.2.3                # To create the API
+Flask-RESTful==0.3.9        # Another framework to create the API and turn things easier
+Flask-SQLAlchemy==3.0.2     # To connect to the database
+Flask-Cors==3.0.10          # To allow CORS
+psycopg2-binary==2.9.3      # To connect to PostgreSQL
+validate-docbr==1.10.0      # To validate the documents (CPF and CNPJ)
+python-dotenv==0.19.2       # To use in development for environment variables
