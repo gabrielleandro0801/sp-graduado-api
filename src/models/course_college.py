@@ -30,7 +30,7 @@ class CourseCollege(db.Model):
         self.modality = kwargs.get('modality')
 
     def to_json(self) -> dict:
-        return{
+        return {
             'id': self.id_course_college,
             'semesters': self.semesters,
             'period': self.period,

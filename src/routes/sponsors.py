@@ -1,15 +1,13 @@
 from flask_restful import Api
 
-from src.common.constants import CONSTANTS
 from src.common.Logger import Logger
+from src.common.constants import CONSTANTS
 from src.controllers.SponsorController import SponsorController
-from src.controllers.SponsorizeController import SponsorizeController
-from src.services.SponsorService import SponsorService
-from src.validators.SponsorValidator import SponsorValidator
-
 from src.controllers.SponsorControllerById import SponsorControllerById
+from src.controllers.SponsorizeController import SponsorizeController
 from src.infrastructure.repositories.person import StudentRepository, SponsorRepository, PersonRepository
 from src.services.SponsorService import SponsorService
+from src.validators.SponsorValidator import SponsorValidator
 
 PATH = CONSTANTS['APPLICATION']['PATH']
 PARAM = CONSTANTS['APPLICATION']['PARAM']
@@ -41,7 +39,7 @@ def add_routes(api: Api) -> Api:
             )
         }
     )
-    
+
     api.add_resource(
         SponsorizeController,
         f"{PATH['BASE_PATH']}{PATH['SPONSORS']}{PARAM['SPONSOR_ID']}/sponsorize",
@@ -55,5 +53,5 @@ def add_routes(api: Api) -> Api:
             'sponsor_logger': Logger(SponsorizeController.__name__)
         }
     )
-        
+
     return api

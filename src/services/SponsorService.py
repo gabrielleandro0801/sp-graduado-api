@@ -1,30 +1,28 @@
 from http import HTTPStatus
 
-from src.custom_exceptions import SponsorHasStudents, SponsorNotFound
+from src.common.Logger import Logger
 from src.common.constants import CONSTANTS
+from src.custom_exceptions import SponsorHasStudents, SponsorNotFound
 from src.errors.CustomException import CustomException
 from src.errors.ErrorHandler import ErrorHandler
-from src.infrastructure.repositories.person import StudentRepository, SponsorRepository
-from src.models.person  import Sponsor
-from src.models.person  import Student
-from src.common.Logger import Logger
-from src.models.person import Sponsor, Person
 from src.infrastructure.repositories.person import PersonRepository
+from src.infrastructure.repositories.person import StudentRepository, SponsorRepository
+from src.models.person import Sponsor, Person
+from src.models.person import Student
 
 
 class SponsorService:
     def __init__(
-        self,
-        sponsor_repository: SponsorRepository,
-        sponsor_logger: Logger,
-        person_repository: PersonRepository=None,
-        student_repository: StudentRepository=None
+            self,
+            sponsor_repository: SponsorRepository,
+            sponsor_logger: Logger,
+            person_repository: PersonRepository = None,
+            student_repository: StudentRepository = None
     ):
         self.__sponsor_repository = sponsor_repository
         self.__student_repository = student_repository
         self.__sponsor_logger = sponsor_logger
         self.__person_repository = person_repository
-
 
     def create(self, person: Person, sponsor: Sponsor) -> Sponsor:
         try:
@@ -34,7 +32,7 @@ class SponsorService:
                 self.__sponsor_repository.find_one_by_document_number(
                     person.document
                 )
-                
+
                 ErrorHandler.throw_exception(
                     CONSTANTS['MESSAGE']['SPONSOR_ALREADY_EXISTS'],
                     int(HTTPStatus.CONFLICT),
@@ -60,7 +58,7 @@ class SponsorService:
             self.__sponsor_logger.error('create', str(e))
 
             ErrorHandler.throw_exception(str(e))
-    
+
     def sponsorize(self, sponsor_id: int, student_id: int) -> Student:
         try:
             self.__sponsor_logger.info('sponsorize', 'SPONSORIZING A STUDENT')
@@ -73,14 +71,14 @@ class SponsorService:
 
             if student.id_sponsor is not None:
                 self.__sponsor_logger.warn('sponsorize',
-                                   "STUDENT ALREADY SPONSORED")
+                                           "STUDENT ALREADY SPONSORED")
 
                 ErrorHandler.throw_exception(
                     CONSTANTS['MESSAGE']['STUDENT_ALREADY_SPONSORED'],
                     int(HTTPStatus.CONFLICT),
                     CONSTANTS['EXCEPTION']['REPOSITORY']
                 )
-            
+
             student: Student = self.__student_repository.update_sponsor(
                 student_id,
                 sponsor_id
@@ -100,7 +98,7 @@ class SponsorService:
             self.__sponsor_logger.error('create', str(e))
 
             ErrorHandler.throw_exception(str(e))
-            
+
     def delete(self, id_sponsor: int) -> None:
         has_students: bool = self.__student_repository.check_if_id_sponsor_has_students(id_sponsor)
         if has_students:

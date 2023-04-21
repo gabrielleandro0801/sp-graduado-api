@@ -5,7 +5,7 @@ class CustomException(Exception):
         self.message = message
         self.status_code = status_code
         self.name = name
-    
+
     def to_json(self) -> dict:
         return {
             'message': self.message,

@@ -1,15 +1,14 @@
 from flask_restful import reqparse
 
-from src.validators.utils import validate_string, validate_table_id
 from src.validators.person_sign_up import *
-from src.common.constants import CONSTANTS
+from src.validators.utils import validate_table_id
 
 
 class SponsorValidator:
 
     def __init__(self):
         self.parser = reqparse.RequestParser()
-    
+
     def validate_post(self):
         self.parser.add_argument(
             name='name',
@@ -61,7 +60,7 @@ class SponsorValidator:
         )
 
         return self.parser.parse_args()
-    
+
     def validate_put(self):
         self.parser.add_argument(
             name='studentId',

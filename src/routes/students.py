@@ -1,17 +1,15 @@
 from flask_restful import Api
+from validate_docbr import CPF, CNPJ
 
-from src.controllers.StudentControllerById import StudentControllerById
-from src.services.StudentService import StudentService
 from src.common.Logger import Logger
 from src.common.constants import CONSTANTS
 from src.controllers.StudentController import StudentController
-
-from validate_docbr import CPF, CNPJ
-
+from src.controllers.StudentControllerById import StudentControllerById
 from src.controllers.validators.document_validator import DocumentValidator
 from src.controllers.validators.student_validator import StudentValidator
 from src.controllers.validators.types_validator import FloatValidator, IntValidator, StringValidator
 from src.infrastructure.repositories.person import PersonRepository, StudentRepository
+from src.services.StudentService import StudentService
 from src.translators.person_translator import PersonTranslator
 
 PATH = CONSTANTS['APPLICATION']['PATH']

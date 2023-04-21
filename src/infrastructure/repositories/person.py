@@ -1,13 +1,14 @@
 from abc import abstractmethod, ABC
-from typing import Any
 from http import HTTPStatus
+from typing import Any
+
 from flask_sqlalchemy import BaseQuery, Pagination
 
-from src.infrastructure.database.db_connection import db, paginated_join_result, add_entities
-from src.models.person import Person, Student, Sponsor, Types
-from src.errors.ErrorHandler import ErrorHandler
 from src.common.Logger import Logger
 from src.common.constants import CONSTANTS
+from src.errors.ErrorHandler import ErrorHandler
+from src.infrastructure.database.db_connection import db, paginated_join_result, add_entities
+from src.models.person import Person, Student, Sponsor, Types
 
 
 class BaseRepository(ABC):
@@ -52,10 +53,10 @@ class PersonRepository:
 class StudentRepository(BaseRepository):
     def __init__(self, logger: Logger):
         self.__repository_logger = logger
-    
+
     def find_one_by_id(self, student_id: int) -> Student:
         self.__repository_logger.info('find_one_by_id',
-                           'SEARCHING FOR THE STUDENT IN THE DATABASE')
+                                      'SEARCHING FOR THE STUDENT IN THE DATABASE')
 
         query: BaseQuery = Student.query.filter_by(id=student_id)
         student = query.first()
@@ -68,7 +69,7 @@ class StudentRepository(BaseRepository):
                 int(HTTPStatus.NOT_FOUND),
                 CONSTANTS['EXCEPTION']['REPOSITORY']
             )
-        
+
         self.__repository_logger.info(
             'find_one_by_id',
             {
@@ -88,14 +89,14 @@ class StudentRepository(BaseRepository):
 
         if updated_student_quantity == 0:
             self.__repository_logger.warn('update_course',
-                               "STUDENT NOT FOUND. CAN'T UPDATE IT")
+                                          "STUDENT NOT FOUND. CAN'T UPDATE IT")
 
             ErrorHandler.throw_exception(
                 CONSTANTS['MESSAGE']['STUDENT_NOT_FOUND'],
                 int(HTTPStatus.NOT_FOUND),
                 CONSTANTS['EXCEPTION']['REPOSITORY']
             )
-        
+
         db.session.commit()
 
         updated_student: Student = self.find_one_by_id(student_id)
@@ -109,7 +110,7 @@ class StudentRepository(BaseRepository):
         )
 
         return updated_student
-    
+
     def update_sponsor(self, student_id: int, sponsor_id: int) -> Student:
         self.__repository_logger.info('update_sponsor', 'UPDATING THE STUDENT SPONSOR')
 
@@ -119,14 +120,14 @@ class StudentRepository(BaseRepository):
 
         if updated_student_quantity == 0:
             self.__repository_logger.warn('update_sponsor',
-                               "STUDENT NOT FOUND. CAN'T UPDATE IT")
+                                          "STUDENT NOT FOUND. CAN'T UPDATE IT")
 
             ErrorHandler.throw_exception(
                 CONSTANTS['MESSAGE']['STUDENT_NOT_FOUND'],
                 int(HTTPStatus.NOT_FOUND),
                 CONSTANTS['EXCEPTION']['REPOSITORY']
             )
-        
+
         db.session.commit()
 
         updated_student: Student = self.find_one_by_id(student_id)
@@ -145,7 +146,7 @@ class StudentRepository(BaseRepository):
         student: Student = self.find_one_by_id(student_id)
 
         self.__repository_logger.info('delete_one', 'DELETING STUDENT FROM THE DATABASE')
-        
+
         db.session.delete(student)
 
         db.session.commit()
@@ -159,8 +160,7 @@ class StudentRepository(BaseRepository):
         )
 
         return student
-    
-    
+
     @classmethod
     def retrieve_data_from_id_person(cls, id_person: int) -> Student:
         query: BaseQuery = Student.query.filter(Student.id_person == id_person)
@@ -181,7 +181,7 @@ class StudentRepository(BaseRepository):
 
     @classmethod
     def find_by_sponsor_id(cls, **kwargs) -> Person or None:
-        query: BaseQuery = Student.query.filter()\
+        query: BaseQuery = Student.query.filter() \
             .join(Person, Person.id == Student.id_person)
 
         if 'sponsor_id' in kwargs:
@@ -201,7 +201,7 @@ class StudentRepository(BaseRepository):
 class SponsorRepository(BaseRepository):
     def __init__(self, logger: Logger):
         self.__repository_logger = logger
-        
+
     @classmethod
     def retrieve_data_from_id_person(cls, id_person: int) -> Sponsor:
         query: BaseQuery = Sponsor.query.filter(Sponsor.id_person == id_person)
@@ -224,14 +224,14 @@ class SponsorRepository(BaseRepository):
             self.__repository_logger.info(
                 'insert',
                 {
-                    'message':'INSERTING THE NEW SPONSOR INTO THE DATABASE',
+                    'message': 'INSERTING THE NEW SPONSOR INTO THE DATABASE',
                     'sponsor': sponsor.to_json()
                 }
             )
 
             person = PersonRepository.save(person)
             sponsor.id_person = person.id
-            
+
             db.session.add(sponsor)
             db.session.commit()
 
@@ -250,20 +250,19 @@ class SponsorRepository(BaseRepository):
                 CONSTANTS['EXCEPTION']['REPOSITORY']
             )
 
-
         return sponsor
 
     def find_one_by_id(self, sponsor_id: int):
         self.__repository_logger.info('find_one_by_id',
-                           'SEARCHING FOR THE SPONSOR IN THE DATABASE')
-        
+                                      'SEARCHING FOR THE SPONSOR IN THE DATABASE')
+
         query: BaseQuery = Sponsor.query.filter_by(id=sponsor_id)
         sponsor = query.first()
 
         if sponsor is None:
             self.__repository_logger.warn('find_one_by_id',
-                               'SPONSOR NOT FOUND IN THE DATABASE')
-            
+                                          'SPONSOR NOT FOUND IN THE DATABASE')
+
             ErrorHandler.throw_exception(
                 CONSTANTS['MESSAGE']['SPONSOR_NOT_FOUND'],
                 int(HTTPStatus.NOT_FOUND),
@@ -271,24 +270,24 @@ class SponsorRepository(BaseRepository):
             )
 
         self.__repository_logger.info('find_one_by_id',
-            {
-                'message': 'SPONSOR FOUND',
-                'sponsor': sponsor.to_json()
-            }
-        )
+                                      {
+                                          'message': 'SPONSOR FOUND',
+                                          'sponsor': sponsor.to_json()
+                                      }
+                                      )
 
         return sponsor
-    
+
     def find_one_by_document_number(self, sponsor_document_number: int):
         self.__repository_logger.info('find_one_by_document_number',
-                           'SEARCHING FOR THE SPONSOR IN THE DATABASE')
-        
+                                      'SEARCHING FOR THE SPONSOR IN THE DATABASE')
+
         sponsor = PersonRepository.find_by_document_and_person_type(sponsor_document_number, Types.SPONSOR)
 
         if sponsor is None:
             self.__repository_logger.warn('find_one_by_document_number',
-                               'SPONSOR NOT FOUND IN THE DATABASE')
-            
+                                          'SPONSOR NOT FOUND IN THE DATABASE')
+
             ErrorHandler.throw_exception(
                 CONSTANTS['MESSAGE']['SPONSOR_NOT_FOUND'],
                 int(HTTPStatus.NOT_FOUND),
@@ -296,10 +295,10 @@ class SponsorRepository(BaseRepository):
             )
 
         self.__repository_logger.info('find_one_by_document_number',
-            {
-                'message': 'SPONSOR FOUND',
-                'sponsor': sponsor.to_json()
-            }
-        )
+                                      {
+                                          'message': 'SPONSOR FOUND',
+                                          'sponsor': sponsor.to_json()
+                                      }
+                                      )
 
         return sponsor

@@ -1,21 +1,22 @@
 import re
+
 import validate_docbr
 
-from src.validators.utils import validate_string, validate_int, validate_float
 from src.common.constants import CONSTANTS
+from src.validators.utils import validate_string, validate_int, validate_float
 
 
 def validate_email(email: str) -> str:
     email = validate_string()(email)
 
     email_components = email.split('@')
-    
+
     if len(email_components) != 2:
         raise Exception(CONSTANTS['MESSAGE']['INVALID_EMAIL'])
-    
+
     if email_components[0] and email_components[1]:
         return email
-    
+
     raise Exception(CONSTANTS['MESSAGE']['INVALID_EMAIL'])
 
 
@@ -36,7 +37,7 @@ def validate_password(passowrd: str) -> str:
         raise Exception(
             CONSTANTS['MESSAGE']['INVALID_PASSWORD']['NO_SPECIAL_CHARACTER']
         )
-    
+
     return passowrd
 
 
@@ -70,7 +71,7 @@ def validate_monthly_income(monthly_income: float):
 
     if monthly_income < 0:
         raise Exception(CONSTANTS['MESSAGE']['NOT_A_POSITIVE_NUMBER'])
-    
+
     return monthly_income
 
 
@@ -87,7 +88,7 @@ def validate_document_number(document_number: str):
 
     if is_valid_CPF or is_valid_CNPJ:
         return document_number
-    
+
     raise Exception(CONSTANTS['MESSAGE']['INVALID_DOCUMENT_NUMBER'])
 
 
@@ -96,5 +97,5 @@ def validate_birth_date(birth_date: str):
 
     if re.match(CONSTANTS['REGEX']['SHORT_ISO8601'], birth_date):
         return birth_date
-    
+
     raise Exception(CONSTANTS['MESSAGE']['NOT_A_SHORT_ISO_8601_DATE'])

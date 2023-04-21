@@ -7,7 +7,7 @@ def validate_int(value: int) -> int:
 
     if isinstance(value, int):
         return value
-    
+
     raise Exception(CONSTANTS['MESSAGE']['NOT_AN_INTEGER'])
 
 
@@ -24,10 +24,10 @@ def validate_string(min_length: int = None, max_length: int = None):
             raise Exception(CONSTANTS['MESSAGE']['NOT_A_STRING'])
 
         value_length = len(value)
-        
+
         if value_length == 0:
             raise Exception(CONSTANTS['MESSAGE']['EMPTY_STRING'])
-        
+
         if min_length is not None:
             if value_length < min_length:
                 raise Exception(
@@ -36,7 +36,7 @@ def validate_string(min_length: int = None, max_length: int = None):
                         characters=min_length
                     )
                 )
-        
+
         if max_length is not None:
             if value_length > max_length:
                 raise Exception(
@@ -45,9 +45,9 @@ def validate_string(min_length: int = None, max_length: int = None):
                         characters=max_length
                     )
                 )
-        
+
         return value
-    
+
     return validate
 
 
@@ -56,5 +56,5 @@ def validate_table_id(table_id: int):
 
     if table_id < 1:
         raise Exception(CONSTANTS['MESSAGE']['INVALID_TABLE_ID'])
-    
-    return table_id      
+
+    return table_id

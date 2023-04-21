@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from flask_restful import Resource
+
 from src.controllers.validators.student_validator import StudentValidator
 from src.custom_exceptions import StudentAlreadyExists
 from src.services.StudentService import StudentService

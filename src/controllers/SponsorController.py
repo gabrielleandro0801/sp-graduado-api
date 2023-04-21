@@ -10,10 +10,10 @@ from src.validators.SponsorValidator import SponsorValidator
 
 class SponsorController(Resource):
     def __init__(
-        self,
-        sponsor_validator: SponsorValidator,
-        sponsor_service: SponsorService,
-        sponsor_logger: Logger
+            self,
+            sponsor_validator: SponsorValidator,
+            sponsor_service: SponsorService,
+            sponsor_logger: Logger
     ):
         self.__sponsor_validator = sponsor_validator
         self.__sponsor_service = sponsor_service

@@ -1,8 +1,8 @@
 from http import HTTPStatus
+
 from flask_restful import Resource
 
 import src.custom_exceptions as ce
-
 from src.controllers.validators.login_validator import LoginValidator
 from src.services.login_service import LoginService
 

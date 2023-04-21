@@ -1,21 +1,22 @@
 from http import HTTPStatus
 from typing import Any, Tuple
 
-from src.models.person import Person, Student, Types
 from src.common.Logger import Logger
-from src.errors.CustomException import CustomException
 from src.custom_exceptions import StudentAlreadyExists
+from src.errors.CustomException import CustomException
 from src.errors.ErrorHandler import ErrorHandler
 from src.infrastructure.repositories.person import StudentRepository, PersonRepository
+from src.models.person import Person, Types
+from src.models.person import Student
 from src.translators.person_translator import PersonTranslator
-from src.models.person  import Student
 
 NONE_SPONSOR_ID = 0
 NONE_COURSE_COLLEGE_ID = 0
 
 
 class StudentService:
-    def __init__(self, student_repository: StudentRepository, student_logger: Logger, person_repository=None, person_translator=None):
+    def __init__(self, student_repository: StudentRepository, student_logger: Logger, person_repository=None,
+                 person_translator=None):
         self.__student_repository = student_repository
         self.__student_logger = student_logger
         self.__person_repository: PersonRepository = person_repository
@@ -41,7 +42,7 @@ class StudentService:
             self.__student_logger.error('find', str(e))
 
             ErrorHandler.throw_exception(str(e))
-    
+
     def update(self, student_id: int, course_id: int) -> Tuple[dict, int]:
         try:
             self.__student_logger.info('update', "UPDATING STUDENT'S COURSE")
@@ -89,7 +90,7 @@ class StudentService:
             self.__student_logger.error('delete', str(e))
 
             ErrorHandler.throw_exception(str(e))
-            
+
     def create(self, body: dict):
         student: Person = self.__person_repository.find_by_document_and_person_type(body.get('document'),
                                                                                     Types.STUDENT)

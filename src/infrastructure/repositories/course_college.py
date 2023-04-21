@@ -10,8 +10,8 @@ class CourseCollegeRepository:
 
     @classmethod
     def retrieve_by_id_college(cls, id_college: int, **kwargs) -> dict:
-        query: BaseQuery = CourseCollege.query.filter(CourseCollege.id_college == id_college)\
-            .join(Course, CourseCollege.id_course == Course.id)\
+        query: BaseQuery = CourseCollege.query.filter(CourseCollege.id_college == id_college) \
+            .join(Course, CourseCollege.id_course == Course.id) \
             .join(Category, Course.id_category == Category.id)
 
         if kwargs.get('period') is not None:

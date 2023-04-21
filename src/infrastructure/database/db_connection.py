@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy, Pagination, BaseQuery
 
 from src.common.env import PROPS
 
-
 db: SQLAlchemy = SQLAlchemy()
 
 

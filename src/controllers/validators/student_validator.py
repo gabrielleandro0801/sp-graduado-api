@@ -1,9 +1,9 @@
 from flask_restful import reqparse
 
+from src.common.constants import CONSTANTS
 from src.controllers.validators.document_validator import DocumentValidator
 from src.controllers.validators.types_validator import StringValidator, FloatValidator, IntValidator
 from src.validators.utils import validate_table_id
-from src.common.constants import CONSTANTS
 
 
 class StudentValidator:
@@ -113,7 +113,7 @@ class StudentValidator:
 
     def validate_put(self):
         body = reqparse.RequestParser()
-        
+
         body.add_argument(
             name='courseId',
             required=True,

@@ -9,15 +9,15 @@ from src.validators.SponsorValidator import SponsorValidator
 
 class SponsorizeController(Resource):
     def __init__(
-        self,
-        sponsor_validator: SponsorValidator,
-        sponsor_service: SponsorService,
-        sponsor_logger: Logger
+            self,
+            sponsor_validator: SponsorValidator,
+            sponsor_service: SponsorService,
+            sponsor_logger: Logger
     ):
         self.__sponsor_service = sponsor_service
         self.__sponsor_validator = sponsor_validator
         self.__sponsor_logger = sponsor_logger
-    
+
     def put(self, sponsor_id: int):
         try:
             self.__sponsor_logger.info(
