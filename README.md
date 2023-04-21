@@ -1,4 +1,6 @@
-# GET - /v1/categories
+# SP Graduado API
+
+## GET - /v1/categories
 
 200 - Ok
 ```json
@@ -24,7 +26,7 @@
 }
 ```
 
-# GET - /v1/colleges
+## GET - /v1/colleges
 
 200 - Ok 
 ```json
@@ -53,7 +55,7 @@
 ```
 
 
-# GET - /v1/colleges/{collegeId}
+## GET - /v1/colleges/{collegeId}
 
 200 - Ok
 ```json
@@ -95,7 +97,7 @@
 }
 ```
 
-# POST - /v1/login
+## POST - /v1/login
 
 200 - Ok
 ```json
@@ -121,7 +123,7 @@
 }
 ```
 
-# POST - /v1/students
+## POST - /v1/students
 
 201 - Created
 ```json
@@ -146,7 +148,7 @@
 ```
 
 
-# GET - /v1/students
+## GET - /v1/students
 
 200 - Ok
 ```json
@@ -176,7 +178,7 @@
 ```
 
 
-# GET - /v1/students/{studentId}
+## GET - /v1/students/{studentId}
 
 200 - Ok
 ```json
@@ -196,7 +198,7 @@
 ```
 
 
-# DELETE - /v1/students/{studentId}
+## DELETE - /v1/students/{studentId}
 
 200 - Ok
 ```json
@@ -216,7 +218,7 @@
 ```
 
 
-# PUT - /v1/students/{studentId}?courseId={courseId}
+## PUT - /v1/students/{studentId}?courseId={courseId}
 
 200 - Ok
 ```json
@@ -236,7 +238,7 @@
 ```
 
 
-# POST - /v1/sponsors 
+## POST - /v1/sponsors 
 
 Payload de envio:
 
@@ -271,7 +273,7 @@ Payload de envio:
 }
 ```
 
-# DELETE - /v1/sponsors/{sponsorId}
+## DELETE - /v1/sponsors/{sponsorId}
 204 - No Content
 
 404 - Not Found
@@ -289,7 +291,7 @@ Payload de envio:
 ```
 
 
-# PUT - /v1/sponsors/{sponsorId}/sponsorize?studentId={studentId}
+## PUT - /v1/sponsors/{sponsorId}/sponsorize?studentId={studentId}
 
 200 - Ok
 ```json
